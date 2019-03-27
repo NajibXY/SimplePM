@@ -5,11 +5,17 @@
  */
 package Modele;
 
+import com.sun.javafx.scene.traversal.Direction;
+
 /**
  *
  * @author Najib EL KHADIR
  */
 public class Monster extends Entity{
+
+    public Monster(Direction currentDirection, Game game) {
+        super(currentDirection, game);
+    }
 
     @Override
     public void run() {

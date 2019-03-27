@@ -5,10 +5,18 @@
  */
 package Modele;
 
+import com.sun.javafx.scene.traversal.Direction;
+
 /**
  *
  * @author Najib EL KHADIR
  */
 public abstract class Entity implements Runnable{
+    protected Direction currentDirection;
+
+    public Entity(Direction currentDirection, Game game) {
+        this.currentDirection = currentDirection;
+    }
+    
     
 }

@@ -10,5 +10,6 @@ package Modele;
  * @author Najib EL KHADIR
  */
 public class Corridor extends Tile {
-    
+    private boolean candy;
+    private boolean supercandy;
 }
