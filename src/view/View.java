@@ -10,10 +10,12 @@ import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Tile;
+import model.Wall;
 
 /**
  *
@@ -57,6 +59,16 @@ public class View extends Application{
     private void draw() {
         Tile[][] board = this.game.getBoard();
         this.tilePane = new TilePane();
+        
+        for(int y = 0; y < this.game.getDimension();y++){
+            for(int x = 0; x< this.game.getDimension(); x++){
+                Tile tile = board[x][y];
+                StackPane pane = new StackPane();
+                if(tile instanceof Wall){
+                    pane.setBackground(new Background(new BackgroundImage(new Image())));
+                }
+            }
+        }
     }
 
     private void display() {
