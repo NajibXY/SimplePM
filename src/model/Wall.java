@@ -3,13 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Modele;
+package model;
+
+import javafx.geometry.Point2D;
 
 /**
  *
  * @author Najib EL KHADIR
  */
-public class Corridor extends Tile {
-    private boolean candy;
-    private boolean supercandy;
+public class Wall extends Tile{
+    
+    public Wall(Point2D coords) {
+        super(coords);
+    }
+    
 }

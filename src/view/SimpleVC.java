@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package VueControleur;
+package view;
 
-import Modele.SimplePacMan;
+import model.SimplePacMan;
 import java.util.Observable;
 import java.util.Observer;
 import javafx.scene.image.Image;

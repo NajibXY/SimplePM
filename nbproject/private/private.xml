@@ -3,8 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/fred/Bureau/test/src/Modele/SimplePacMan.java</file>
-            <file>file:/home/fred/Bureau/test/src/VueControleur/SimpleVC.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Game.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/VueControleur/SimpleVC.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Corridor.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/VueControleur/GameVC.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Pacman.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Wall.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Entity.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/SimplePacMan.java</file>
+            <file>file:/C:/Users/Najib%20EL%20KHADIR/Documents/L3/JAVA/SimplePM/src/Modele/Tile.java</file>
         </group>
     </open-files>
 </project-private>
