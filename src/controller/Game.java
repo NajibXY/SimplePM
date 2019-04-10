@@ -116,10 +116,10 @@ public class Game extends Observable {
                         break;
                     case 'M':
                         String monsterSpriteId = monsterSpriteIds[monsterInc];
-                        monsterInc++;
-                        Monster monster = new Monster(UP, coords, monsterSpriteId, this, 350 + 50 * monsterInc);
+                        Monster monster = new Monster(UP, coords, monsterSpriteId, this, 400 + 500 * monsterInc);
                         this.monsters.add(monster);
                         this.board[x][y] = new Corridor(coords, this, monster);
+                        monsterInc++;
                         break;
                     case 'P':
                         this.pac = new Pacman(UP, coords, "pacman.png", this, 300);
@@ -197,6 +197,7 @@ public class Game extends Observable {
     
     
     private void kill(Entity entity) {
+        this.pac.setSprite("dead.png");
         this.finish();
     }
 

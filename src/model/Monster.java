@@ -15,7 +15,7 @@ import javafx.geometry.Point2D;
  * @author Najib EL KHADIR
  */
 public class Monster extends Entity {
-    
+
     private boolean outside;
     //private boolean scared;
 
@@ -30,7 +30,7 @@ public class Monster extends Entity {
     public boolean isOutside() {
         return this.outside;
     }
-
+    
     /*
     public boolean isScared() {
         return this.scared;
@@ -40,6 +40,7 @@ public class Monster extends Entity {
         this.scared = true;
     }
      */
+    
     private ArrayList<Direction> getPossibleDirections() {
         ArrayList<Direction> possibleDirections = new ArrayList();
         for (Direction direction : Direction.values()) {
@@ -60,15 +61,14 @@ public class Monster extends Entity {
         }
         if (possibleDirections.isEmpty()) {
             possibleDirections.add(this.currentDir.getOpposed());
-            possibleDirections.add(Direction.RIGHT);
         }
         return possibleDirections;
     }
-    
+
     private Direction getClosestDirection(Point2D aimedCoords) {
         Direction nextDirection = this.currentDir;
         ArrayList<Direction> possibleDirections = this.getPossibleDirections();
-        
+
         double maxDistance = Double.MAX_VALUE;
         for (Direction direction : possibleDirections) {
             Point2D nextCoords = this.game.getNextCoords(this.coords, direction);
@@ -78,10 +78,10 @@ public class Monster extends Entity {
                 nextDirection = direction;
             }
         }
-        
+
         return nextDirection;
     }
-    
+
     @Override
     public Direction getNextDirection() {
         Point2D aimedCoords;
@@ -90,12 +90,16 @@ public class Monster extends Entity {
         } else {
             MonsterDoor monsterdoor = this.game.getMonsterDoor();
             aimedCoords = this.game.getNextCoords(monsterdoor.getCoords(), monsterdoor.getPass());
+            this.setOutside(true);
         }
         return this.getClosestDirection(aimedCoords);
     }
     
     @Override
     public boolean canKill(Entity enemy) {
-        return (enemy instanceof Pacman);
+        if(enemy instanceof Pacman){
+            enemy.setSprite("dead.png");
+        }
+        return (enemy instanceof Pacman );
     }
 }

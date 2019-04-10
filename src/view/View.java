@@ -30,6 +30,7 @@ import static model.Corridor.CandyType.EMPTY;
 import static model.Corridor.CandyType.SUPER;
 import model.Entity;
 import model.MonsterDoor;
+import model.Pacman;
 import model.Tile;
 import util.Direction;
 
@@ -127,7 +128,9 @@ public class View extends Application {
                             }
                             
                             ImageView imageView = new ImageView(entity.getSprite());
-                            imageView.setRotate(imageView.getRotate() + startingAngle);
+                            if(entity instanceof Pacman){
+                                imageView.setRotate(imageView.getRotate() + startingAngle);
+                            }
                             SnapshotParameters params = new SnapshotParameters();
                             Image rotatedImage = imageView.snapshot(params, null);
                             params.setFill(Color.TRANSPARENT);
@@ -162,7 +165,7 @@ public class View extends Application {
         int rectHeight = this.game.getDimension() * 30 / 3;
         StackPane scoreStack = new StackPane();
         Rectangle scoreRect = new Rectangle(rectHeight, 60);
-        Text score = new Text(27, 27, String.valueOf(this.game.getScore()));
+        Text score = new Text(27, 27, String.valueOf("SCORE = " + this.game.getScore()));
         score.setFill(Color.WHITE);
         scoreStack.getChildren().addAll(scoreRect, score);
         this.scorePane.setMaxSize(this.game.getDimension() * 30, 60);

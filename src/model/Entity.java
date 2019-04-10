@@ -91,12 +91,7 @@ public abstract class Entity implements Runnable{
         while (this.runnable.get()) {
             try {
                 this.thread.sleep(this.interval);
-                if (this instanceof Monster) {
-                    this.game.move(this, this.currentDir.getOpposed());
-                    this.setTurnback(false);
-                } else {
-                    this.game.move(this, this.getNextDirection());
-                }
+                this.game.move(this, this.getNextDirection());
             } catch (InterruptedException ex) {
                 System.out.println("Interrupted thread");
             }
@@ -108,8 +103,8 @@ public abstract class Entity implements Runnable{
         return defaultSprite;
     }
 
-    public void setSprite(Image sprite) {
-        this.sprite = sprite;
+    public void setSprite(String spriteId) {
+        this.sprite = new Image(getClass().getResourceAsStream("/sprites/"+spriteId));
     }
 
     public Image getSprite() {
