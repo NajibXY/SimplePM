@@ -75,8 +75,6 @@ public class Corridor extends Tile {
                     break;
                 case SUPER:
                     this.game.addScore(500);
-                    this.game.fearGhots();
-                    ((Pacman)this.entity).powerUp();
                     break;
             }
             this.candy = EMPTY;

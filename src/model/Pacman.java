@@ -7,11 +7,7 @@ package model;
 
 import util.Direction;
 import controller.Game;
-import static javafx.animation.Animation.Status.RUNNING;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
-import javafx.util.Duration;
 
 /**
  *
@@ -19,24 +15,35 @@ import javafx.util.Duration;
  */
 public class Pacman extends Entity{
     
-    private boolean power;
-    private final Timeline powerTimeline;
+    
     
     public Pacman(Direction currentDir, Point2D coords, String spriteId, Game game, int interval) {
         super(currentDir, coords, spriteId, game, interval);
-        this.power = false;
-        this.powerTimeline = new Timeline(new KeyFrame(Duration.seconds(10), (e) -> {
-            this.endPower();
-        }));
     }
    
+    
+    
+    @Override
+    protected Direction getNextDirection() {
+        return this.currentDir;
+    }
+    
+    @Override
+    public boolean canKill(Entity enemy) {
+        return false;
+    }
+    
+     /*
+    private boolean power;
+    
     public boolean isPower(){
         return this.power;
     }
     
-     public void startPower() {
+    public void startPower() {
+        this.game.notifyPowerToGhosts();
         if(!this.isPower()) {
-            //this.setColor(Color.ORANGE);
+            this.setSprite(new Image(getClass().getResourceAsStream("sprites/power.png")));
             this.power = true;
             this.setInterval(this.interval / 2);
         }
@@ -45,23 +52,18 @@ public class Pacman extends Entity{
         } else {
             this.powerTimeline.play();
         }
-    }
+    }*/
 
+    /*
     public void endPower() {
-        System.out.println("endpower");
-        this.setInterval(this.interval * 2);
+        this.setSprite(this.getDefaultSprite());
         this.power = false;
+        this.game.notifyEndToGhosts();
     }
 
     @Override
     public boolean canKill(Entity enemy) {
-        return (enemy instanceof Monster && this.power  );
+        return (enemy instanceof Monster && this.power && ((Monster)enemy).isScared());
     }
-    
-    @Override
-    protected Direction getNextDirection() {
-        return this.currentDir;
-    }
-    
-    
+    */
 }

@@ -5,7 +5,6 @@
  */
 package controller;
 
-import com.sun.javafx.scene.traversal.Direction;
 import java.util.ArrayList;
 import java.util.Observable;
 import javafx.geometry.Point2D;
@@ -17,6 +16,7 @@ import model.MonsterDoor;
 import model.Pacman;
 import model.Tile;
 import model.Wall;
+import util.Direction;
 import static util.Direction.*;
 
 /**
@@ -31,12 +31,20 @@ public class Game extends Observable {
     private boolean running;
     private int score;
     private ArrayList<Monster> monsters;
+    private MonsterDoor monsterdoor;
+    private boolean isDead;
 
     public Game() {
         this.running = false;
         this.dimension = 21;
         this.score = 0;
+        this.isDead = false;
         this.initBoard();
+    }
+
+    public void update() {
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public void start() {
@@ -73,7 +81,7 @@ public class Game extends Observable {
             "01111C111010111C11110",
             "00001C1000M0001C10000",
             "11111C1011D1101C11111",
-            "00000C001MMM100C00000",
+            "00001C001MMM100C10000",
             "11111C101111101C11111",
             "00001C100000001C10000",
             "01111C101111101C11110",
@@ -118,12 +126,17 @@ public class Game extends Observable {
                         this.board[x][y] = new Corridor(coords, this, this.pac);
                         break;
                     case 'D':
-                        this.board[x][y] = new MonsterDoor(coords, this, UP);
+                        this.monsterdoor = new MonsterDoor(coords, this, UP);
+                        this.board[x][y] = this.monsterdoor;
                         break;
                 }
             }
         }
 
+    }
+
+    public MonsterDoor getMonsterDoor() {
+        return monsterdoor;
     }
 
     public int getDimension() {
@@ -142,6 +155,9 @@ public class Game extends Observable {
         return this.pac;
     }
     
+    public void finish(){
+        this.running = false;
+    }
     public boolean isFinished() {
         return !this.running;
     }
@@ -160,24 +176,87 @@ public class Game extends Observable {
                 return coords;
         }
     }
-    
+
     public Tile getTileByCoords(Point2D coords) {
         return this.board[(int) coords.getX()][(int) coords.getY()];
     }
-    
-    
+
     public void addScore(int score) {
         this.score += score;
     }
-    
+
     public int getScore() {
         return this.score;
     }
-    
-    public void move(Entity e, Direction d) {
 
+    private void applyMove(Entity entity, Point2D newCoords) {
+        ((Corridor) this.getTileByCoords(entity.getCoords())).removeEntity();
+        entity.moveTo(newCoords);
     }
     
-    //// too resume
+    
+    
+    private void kill(Entity entity) {
+        this.finish();
+    }
+
+    public void updatePacmanDirection(Direction direction) {
+        Point2D adjacentCoords = this.getNextCoords(this.pac.getCoords(), direction);
+        if (this.isReachable(adjacentCoords)) {
+            Tile tile = this.getTileByCoords(adjacentCoords);
+            if (tile instanceof Corridor) {
+                this.pac.setDirection(direction);
+            }
+        }
+    }
+
+    public boolean move(Entity entity, Direction direction) {
+        Point2D entityCoords = entity.getCoords();
+        Point2D nextCoords = this.getNextCoords(entityCoords, direction);
+
+        if (this.isReachable(nextCoords)) {
+            Tile nextTile = this.getTileByCoords(nextCoords);
+
+            if (entity instanceof Pacman && nextTile instanceof MonsterDoor) {
+                return false;
+            }
+
+            if (nextTile instanceof Corridor) {
+                Corridor nextCorr = ((Corridor) nextTile);
+                Entity enemy = nextCorr.getEntity();
+
+                if (enemy != null) {
+                    if (entity.canKill(enemy)) {
+                        this.kill(enemy);
+                        if (entity instanceof Monster) {
+                            this.update();
+                            return false;
+                        }
+                    } else if (enemy.canKill(entity)) {
+                        this.kill(entity);
+                        this.update();
+                        return false;
+                    } else {
+                        return false;
+                    }
+                }
+
+                if (!(entity instanceof Pacman)) {
+                    entity.setDirection(direction);
+                }
+                this.applyMove(entity, nextCoords);
+                nextCorr.setEntity(entity);
+                this.update();
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isReachable(Point2D coords) {
+        return (coords.getX() > -1) && (coords.getX() < this.dimension)
+                && (coords.getY() > -1) && (coords.getY() < this.dimension);
+    }
 
 }

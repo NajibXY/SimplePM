@@ -20,7 +20,8 @@ public abstract class Entity implements Runnable{
     protected Point2D coords;
     protected final Point2D initCoords;
     
-    protected final Image sprite;
+    protected Image sprite;
+    protected final Image defaultSprite;
     
     protected final Thread thread;
     protected int interval;
@@ -34,7 +35,8 @@ public abstract class Entity implements Runnable{
         this.coords = coords;
         this.initCoords = coords;
         
-        this.sprite = new Image(getClass().getResourceAsStream("sprites/"+spriteId));
+        this.sprite = new Image(getClass().getResourceAsStream("/sprites/"+spriteId));
+        this.defaultSprite = new Image(getClass().getResourceAsStream("/sprites/"+spriteId));
         
         this.interval = interval;
         this.thread = new Thread(this);
@@ -60,10 +62,6 @@ public abstract class Entity implements Runnable{
 
     public Point2D getCoords() {
         return coords;
-    }
-
-    public void move(Point2D coords) {
-        this.coords = coords;
     }
 
     public int getInterval() {
@@ -94,10 +92,10 @@ public abstract class Entity implements Runnable{
             try {
                 this.thread.sleep(this.interval);
                 if (this instanceof Monster) {
-                    //this.game.move(this, this.currentDir.getOpposed());
+                    this.game.move(this, this.currentDir.getOpposed());
                     this.setTurnback(false);
                 } else {
-                    //this.game.move(this, this.getNextDirection());
+                    this.game.move(this, this.getNextDirection());
                 }
             } catch (InterruptedException ex) {
                 System.out.println("Interrupted thread");
@@ -106,6 +104,23 @@ public abstract class Entity implements Runnable{
         
     }
 
+    public Image getDefaultSprite() {
+        return defaultSprite;
+    }
+
+    public void setSprite(Image sprite) {
+        this.sprite = sprite;
+    }
+
+    public Image getSprite() {
+        return sprite;
+    }
+    
+    public void moveTo(Point2D coords) {
+        this.coords = coords;
+    }
+    
+    
     public abstract boolean canKill(Entity enemy);
     
     
