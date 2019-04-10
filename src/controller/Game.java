@@ -116,7 +116,7 @@ public class Game extends Observable {
                         break;
                     case 'M':
                         String monsterSpriteId = monsterSpriteIds[monsterInc];
-                        Monster monster = new Monster(UP, coords, monsterSpriteId, this, 400 + 500 * monsterInc);
+                        Monster monster = new Monster(UP, coords, monsterSpriteId, this, 400 + 100 * monsterInc);
                         this.monsters.add(monster);
                         this.board[x][y] = new Corridor(coords, this, monster);
                         monsterInc++;
