@@ -98,51 +98,51 @@ public class View extends Application {
 
                     Corridor corr = ((Corridor) tile);
                     CandyType type = corr.getType();
+
                     if (type != EMPTY) {
-                        Circle candy = new Circle(15, 15, 5, Color.WHITE);
-                        if(type == SUPER){
-                            candy.setRadius(10);
+                        if (type == SUPER) {
+                            Image superSprite = new Image(getClass().getResourceAsStream("/sprites/supercandy.png"));
+                            ImagePattern imagePattern = new ImagePattern(superSprite);
+                            rect.setFill(imagePattern);
+                        } else {
+
+                            Circle candy = new Circle(15, 15, 5, Color.WHITE);
+                            pane.getChildren().add(candy);
+                            candy.requestFocus();
                         }
-                        pane.getChildren().add(candy);
-                        candy.requestFocus();
                     }
 
                     Entity entity = corr.getEntity();
                     if (entity != null) {
-                            int startingAngle;
-                            switch (entity.getDirection()) {
-                                case LEFT:
-                                    startingAngle = 180;
-                                    break;
-                                case DOWN:
-                                    startingAngle = 90;
-                                    break;
-                                case RIGHT:
-                                    startingAngle = 0;
-                                    break;
-                                case UP:
-                                    startingAngle = 270;
-                                    break;
-                                default:
-                                    startingAngle = 0;
-                            }
-                            
-                            ImageView imageView = new ImageView(entity.getSprite());
-                            if(entity instanceof Pacman){
-                                imageView.setRotate(imageView.getRotate() + startingAngle);
-                            }
-                            SnapshotParameters params = new SnapshotParameters();
-                            Image rotatedImage = imageView.snapshot(params, null);
-                            params.setFill(Color.TRANSPARENT);
-                            
-                            ImagePattern imagePattern = new ImagePattern(rotatedImage);
-                            rect.setFill(imagePattern);
-                            /*
-                            Arc pacman = new Arc(0, 0, 10, 10, startingAngle, 270);
-                            pacman.setType(ArcType.ROUND);
-                            pacman.setFill(Color.YELLOW);
-                            pane.getChildren().add(pacman);
-                            pacman.requestFocus();*/
+                        int startingAngle;
+                        switch (entity.getDirection()) {
+                            case LEFT:
+                                startingAngle = 180;
+                                break;
+                            case DOWN:
+                                startingAngle = 90;
+                                break;
+                            case RIGHT:
+                                startingAngle = 0;
+                                break;
+                            case UP:
+                                startingAngle = 270;
+                                break;
+                            default:
+                                startingAngle = 0;
+                        }
+
+                        ImageView imageView = new ImageView(entity.getSprite());
+                        if (entity instanceof Pacman) {
+                            imageView.setRotate(imageView.getRotate() + startingAngle);
+                        }
+                        SnapshotParameters params = new SnapshotParameters();
+                        Image rotatedImage = imageView.snapshot(params, null);
+                        params.setFill(Color.TRANSPARENT);
+
+                        ImagePattern imagePattern = new ImagePattern(rotatedImage);
+                        rect.setFill(imagePattern);
+
                     }
                 } else {
                     rect.setFill(Color.GREEN);
@@ -151,7 +151,6 @@ public class View extends Application {
             }
         }
 
-        
         this.drawScore();
 
         this.rootPane = new BorderPane();
@@ -159,8 +158,7 @@ public class View extends Application {
         this.rootPane.setBottom(this.gridPane);
     }
 
-    
-    private void drawScore(){
+    private void drawScore() {
         this.scorePane = new TilePane();
         int rectHeight = this.game.getDimension() * 30 / 3;
         StackPane scoreStack = new StackPane();
@@ -171,7 +169,7 @@ public class View extends Application {
         this.scorePane.setMaxSize(this.game.getDimension() * 30, 60);
         this.scorePane.getChildren().addAll(scoreStack);
     }
-    
+
     private void display() {
         int sceneHeight = this.game.getDimension() * 30;
         int sceneWidth = this.game.getDimension() * 30 + 60;
@@ -179,7 +177,7 @@ public class View extends Application {
 
         scene.setOnKeyReleased((event) -> {
             switch (event.getCode()) {
-                default :
+                default:
                     this.game.updatePacmanDirection(Direction.get(event.getCode()));
             }
             this.game.update();
